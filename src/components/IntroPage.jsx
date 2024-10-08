@@ -7,14 +7,14 @@ function IntroPage({ getLocation, API_KEY }) {
 		const getLatLon = `http://api.openweathermap.org/geo/1.0/direct?q=${userInput}&appid=${API_KEY}`
 		fetch(getLatLon)
 			.then(res => res.json())
-			.then(data => getLocation({ lat: data[0].lat, lon: data[0].lon, type: 'userInput' }))
+			.then(data => getLocation({ lat: data[0].lat, lon: data[0].lon }))
 	}
 
 	const handleLocationFetch = () => {
 		const success = position => {
 			const lat = position.coords.latitude;
 			const lon = position.coords.longitude;
-			getLocation({ lat: lat, lon: lon, type: 'geolocation' })
+			getLocation({ lat: lat, lon: lon })
 		}
 
 		const error = () => alert("Can't get your location.");
@@ -26,10 +26,17 @@ function IntroPage({ getLocation, API_KEY }) {
 		}
 	}
 
+	const handleKeyPress = e => {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			handleClick();
+		}
+	}
+
 	return (
 		<div>
-			<input type="text" className="location_input_field" placeholder="Enter a city name, state code or country code" />
-			<button onClick={handleClick}>Search</button>
+			<input type="text" className="location_input_field" placeholder="Enter a city name, state code or country code" onKeyUp={e => handleKeyPress(e)} />
+			<button onClick={handleClick} type="submit">Search</button>
 			<button onClick={handleLocationFetch}>Get location automatically</button>
 		</div>
 	)
