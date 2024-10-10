@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+/* For Webkit Browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+	width: 12px;
+	/* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	/* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #888;
+	/* Scrollbar color */
+	border-radius: 10px;
+	/* Rounded edges */
+	border: 3px solid #f1f1f1;
+	/* Adds a gap between the track and scrollbar */
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #555;
+	/* Scrollbar color on hover */
+}
+
 *,
 *:before,
 *:after {
@@ -10,13 +35,110 @@
 
 body {
 	@apply h-screen font-sans;
+	/* For Firefox */
+	scrollbar-width: thin;
+	/* Thin width */
+	scrollbar-color: #888 #f1f1f1;
+	/* Scrollbar color and track color */
+}
+
+#weather-info-container.clear-sky {
+	background: linear-gradient(to top, #00c6ff, #0072ff);
+}
+
+#weather-info-container.few-clouds {
+	background: linear-gradient(to top, #f5f7fa, #c3cfe2);
+}
+
+#weather-info-container.scattered-clouds {
+	background: linear-gradient(to top, #d7d2cc, #304352);
+}
+
+#weather-info-container.broken-clouds {
+	background: linear-gradient(to top, #757f9a, #d7dde8);
+}
+
+#weather-info-container.shower-rain {
+	background: linear-gradient(to top, #00c6ff, #0072ff);
+}
+
+#weather-info-container.rain {
+	background: linear-gradient(to top, #2c3e50, #bdc3c7);
+}
+
+#weather-info-container.thunderstorm {
+	background: linear-gradient(to top, #373b44, #4286f4);
+}
+
+#weather-info-container.snow {
+	background: linear-gradient(to top, #e0eafc, #cfdef3);
+}
+
+#weather-info-container.mist {
+	background: linear-gradient(to top, #606c88, #3f4c6b);
 }
 
 .card {
-	@apply flex items-center justify-center rounded-xl font-semibold;
-	background-color: hsla(0, 0%, 50%, 0.2);
+	@apply flex justify-center items-center rounded-xl font-semibold;
+	background-color: hsla(0, 0%, 20%, 0.5);
+}
+
+.card:last-of-type {
+	@apply flex items-start flex-col p-6 px-6 lg:px-12 col-span-2;
+	background-color: hsla(0, 0%, 0%, 0.7)
 }
 
 #card-container {
 	@apply grid grid-cols-2 gap-8;
+}
+
+#weather-info-container {
+	@apply h-full w-full p-10 flex flex-col items-center justify-center;
+}
+
+
+/*Intro*/
+#intro-container {
+	@apply h-screen flex flex-col items-center justify-center relative;
+	background: linear-gradient(135deg, #f6d365, #fda085);
+}
+
+#intro-container-top {
+	@apply flex flex-col w-fit items-center gap-y-4;
+	width: min(80vw, 40rem);
+}
+
+#get-location-button {
+	@apply text-xl xl:text-2xl border rounded-lg w-fit py-3 px-8 font-semibold hover:bg-gray-200 hover:scale-95 transition-all;
+}
+
+#location_input_field {
+	@apply text-white w-[inherit] max-xl:max-w-[30rem] max-w-[34rem] text-xl xl:text-2xl bg-transparent placeholder:text-gray-100;
+}
+
+footer {
+	@apply text-sm text-gray-600 fixed bottom-3 w-screen text-center;
+}
+
+
+/*Weather*/
+#location-name {
+	@apply text-2xl lg:text-4xl font-bold text-black;
+}
+
+#temp-weather-description {
+	@apply text-2xl lg:text-5xl flex flex-col gap-4 lg:gap-8 p-4 lg:p-8;
+}
+
+#pollution-components-container {
+	@apply grid grid-cols-4 lg:grid-cols-8 gap-8 lg:gap-3 w-full;
+}
+
+/*WeatherCard*/
+.gases-container {
+	@apply flex flex-col justify-center items-center text-white
+}
+
+.gases {
+	@apply text-gray-300 text-sm lg:text-base;
 }

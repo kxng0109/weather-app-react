@@ -3,37 +3,36 @@ import IntroPage from "./components/IntroPage";
 import Weather from "./components/Weather";
 import { key } from "./key";
 
-console.clear();
 function App() {
-	// const [hasSubmittedLocation, setHasSubmittedLocation] = useState(false);
-	// const [weatherInfo, setWeatherInfo] = useState({});
-	// const [latLon, setLatLon] = useState({});
-	const [hasSubmittedLocation, setHasSubmittedLocation] = useState(true);
+	const [haveUserLocation, setHaveUserLocation] = useState(false);
 	const [weatherInfo, setWeatherInfo] = useState();
-	const [latLon, setLatLon] = useState({
-		"lat": 51.5073219,
-		"lon": -0.1276474
-	});
+	const [latLon, setLatLon] = useState();
+	const [airPollotionInfo, setAirPollutionInfo] = useState();
 
 	const API_KEY = key;
 
 	const handleUserInput = input => {
 		setLatLon(input);
-		setHasSubmittedLocation(true);
+		setHaveUserLocation(true);
 	}
 
 	useEffect(() => {
-		if (hasSubmittedLocation) {
+		if (haveUserLocation) {
 			const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latLon.lat}&lon=${latLon.lon}&appid=${API_KEY}&units=metric`;
 			fetch(url)
 				.then(res => res.json())
 				.then(data => setWeatherInfo(data))
+		
+			const airPollutionURL = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${latLon.lat}&lon=${latLon.lon}&appid=${API_KEY}`;
+			fetch(airPollutionURL)
+				.then(res => res.json())
+				.then(data => setAirPollutionInfo(data))
 		}
-	}, [hasSubmittedLocation])
+	}, [haveUserLocation])
 
 	return (
 		<div className="app-container">
-			{!hasSubmittedLocation && 
+			{!haveUserLocation && 
 				<IntroPage 
 					API_KEY={API_KEY} 
 					getLocation={info => handleUserInput({ ...info })} 
@@ -48,6 +47,8 @@ function App() {
 					locationName={weatherInfo.name} 
 					locationAbbreviation={weatherInfo.sys.country} 
 					clouds={weatherInfo.clouds.all} 
+					airPollutionComponents={airPollotionInfo.list[0].components}
+					aqi={airPollotionInfo.list[0].main.aqi}
 					everything={weatherInfo} 
 				/>
 			}
